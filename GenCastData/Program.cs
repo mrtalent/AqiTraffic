@@ -16,7 +16,8 @@ namespace GenCastData
             List<string> wsids = new List<string>();
             List<string> asids = new List<string>();
             MemCache cache = new MemCache();
-            using (StreamReader sr = new StreamReader(@"D:\v-tianhe\aqiTraffic\workspace\Ploting\aqi-speed\crawl-road\sloc\_loc1"))
+            using (StreamReader sr = new StreamReader(
+                @"D:\Users\v-tianhe\aqiTraffic\Code\AqiTraffic\GenRoadStationMapCW\bin\Debug\_loc1"))
             {
                 string iline = null;
                 while ((iline = sr.ReadLine()) != null)
@@ -24,7 +25,8 @@ namespace GenCastData
                     asids.Add(iline.Split(',')[0]);
                 }
             }
-            using (StreamReader sr = new StreamReader(@"D:\v-tianhe\aqiTraffic\workspace\Ploting\aqi-speed\crawl-road\sloc\_loc2"))
+            using (StreamReader sr = new StreamReader(
+                @"D:\Users\v-tianhe\aqiTraffic\Code\AqiTraffic\GenRoadStationMapCW\bin\Debug\_loc2"))
             {
                 string iline = null;
                 while ((iline = sr.ReadLine()) != null)

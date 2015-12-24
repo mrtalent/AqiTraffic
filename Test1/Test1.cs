@@ -45,13 +45,12 @@ namespace Test1
         }
         static void Main(string[] args)
         {
-            
-            string tmp = "test1,test2, test3,   test34, ,";
-            
-            tmp.Split(new char[] { ',' }, 5)
-            foreach (var (item,i) in Ie )
+
+            DateTime sdt = new DateTime(2015, 7, 1);
+            DateTime edt = new DateTime(2015, 12, 21);
+            for (DateTime dt = sdt; dt < edt; dt=dt.AddMinutes(15))
             {
-                Console.WriteLine(item);
+                Console.WriteLine(dt);
             }
         }
     }

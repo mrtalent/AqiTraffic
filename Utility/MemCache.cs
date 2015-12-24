@@ -13,7 +13,20 @@ namespace AqiTraffic.Utility
         static AqiDB dbAqi = new AqiDB();
         Dictionary<Tuple<string, DateTime>, double> weaCache = new Dictionary<Tuple<string, DateTime>, double>();
         Dictionary<Tuple<string, DateTime>, double> aqiCache = new Dictionary<Tuple<string, DateTime>, double>();
-
+        public Dictionary<Tuple<string, DateTime>, double> AqiCache
+        {
+            get
+            {
+                return aqiCache;
+            }
+        }
+        public Dictionary<Tuple<string, DateTime>, double> WeatherCache
+        {
+            get
+            {
+                return weaCache;
+            }
+        }
         public double GetWeather(string sid, DateTime dt)
         {
             Tuple<string, DateTime> qr = new Tuple<string, DateTime>(sid, dt);

@@ -35,30 +35,6 @@ namespace AqiTraffic.Utility
                 }
             }
         }
-        public void Initial()
-        {
-            Console.WriteLine("Loading Road Station Map...\n");
-            road_weaStation_map = new Dictionary<int, string>();
-            road_aqiStation_map = new Dictionary<int, string>();
-            using (StreamReader sr = new StreamReader(Path.Combine(mapDir, "_map1")))
-            {
-                string iline = null;
-                while ((iline = sr.ReadLine()) != null)
-                {
-                    string[] strs = iline.Split(',');
-                    road_aqiStation_map.Add(int.Parse(strs[0]), strs[1]);
-                }
-            }
-            using (StreamReader sr = new StreamReader(Path.Combine(mapDir, "_map2")))
-            {
-                string iline = null;
-                while ((iline = sr.ReadLine()) != null)
-                {
-                    string[] strs = iline.Split(',');
-                    road_weaStation_map.Add(int.Parse(strs[0]), strs[1]);
-                }
-            }
-        }
         public string GetWeatherStationID(int road_id)
         {
             return road_weaStation_map[road_id];

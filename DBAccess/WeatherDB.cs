@@ -54,27 +54,38 @@ namespace AqiTraffic.DataAccess
         /// <param name="stationID"></param>
         /// <param name="startTime"></param>
         /// <returns></returns>
-        public double QueryWeather(string stationID, DateTime startTime)
+        public Tuple<double,double,double,int> QueryWeather(string stationID, DateTime startTime)
         {
-            string sql = string.Format("SELECT TOP 1 RainFall FROM ruiyuan_test_2015_12_19_before.dbo.Meteorology where id = '{0}' " +
+            string sql = string.Format("SELECT TOP 1 RainFall,Temperature,WindSpeed,Weather FROM ruiyuan_test_2015_12_19_before.dbo.Meteorology where id = '{0}' " +
                 "and DATEDIFF(MINUTE,'{1}', update_time) > 0 and DATEDIFF(MINUTE,'{2}', update_time) <= 0 ORDER BY update_time DESC",
                 stationID.ToString(), startTime.AddDays(-2).ToString(), startTime.ToString());
             SqlCommand cmd = new SqlCommand(sql, _conn);
             SqlDataReader sqlReader = cmd.ExecuteReader();
-            double ret = -1;
-
+            double rain = -9999, temperature = -9999, wind = -9999;
+            int weather =-9999;
+            Tuple<double, double, double, int> ret=;
             sqlReader.Read();
-
-            if (sqlReader.HasRows && !sqlReader.IsDBNull(0))
+            if (sqlReader.HasRows)
             {
-                ret = sqlReader.GetFloat(0);
+                if (!sqlReader.IsDBNull(0))
+                {
+                    rain = sqlReader.GetFloat(0);
+                }
+                if (!sqlReader.IsDBNull(1))
+                {
+                    temperature = sqlReader.GetFloat(1);
+                }
+                if (!sqlReader.IsDBNull(2))
+                {
+                    wind = sqlReader.GetFloat(2);
+                }
+                if (!sqlReader.IsDBNull(3))
+                {
+                    weather = sqlReader.GetInt16(3);
+                }
             }
-            // to simplify the model, choose the first one is okay
-
-
-
             sqlReader.Close();
-            return ret;
+            return new Tuple<double, double, double, int>(rain, temperature, wind, weather);
         }
     }
 }

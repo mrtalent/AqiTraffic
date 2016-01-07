@@ -30,7 +30,7 @@ namespace Test1
             SqlConnection _conn;
             _conn = new SqlConnection(_connectionString);
             _conn.Open();
-            SqlCommand cmd = new SqlCommand("SELECT TOP 100 PM25_Concentration,time FROM ruiyuan_test_2015_12_19_before.dbo.AirQuality where station_id='001025' and DATEDIFF(MINUTE, '2014-02-11 16:00:00', time) > 0"
+            SqlCommand cmd = new SqlCommand("SELECT TOP 100 PM25_Concentration,time FROM ruiyuan_test.dbo.AirQuality where station_id='001025' and DATEDIFF(MINUTE, '2014-02-11 16:00:00', time) > 0"
                 , _conn);
             SqlDataReader sqlReader = cmd.ExecuteReader();
             if (!sqlReader.HasRows)
@@ -46,12 +46,7 @@ namespace Test1
         static void Main(string[] args)
         {
 
-            DateTime sdt = new DateTime(2015, 7, 1);
-            DateTime edt = new DateTime(2015, 12, 21);
-            for (DateTime dt = sdt; dt < edt; dt=dt.AddMinutes(15))
-            {
-                Console.WriteLine(dt);
-            }
+            TestDB();
         }
     }
 }

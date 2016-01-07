@@ -11,7 +11,7 @@ namespace AqiTraffic.Utility
     {
         static WeatherDB dbWea = new WeatherDB();
         static AqiDB dbAqi = new AqiDB();
-        Dictionary<Tuple<string, DateTime>, double> weaCache = new Dictionary<Tuple<string, DateTime>, double>();
+        Dictionary<Tuple<string, DateTime>, Tuple<double, double, double, int>> weaCache = new Dictionary<Tuple<string, DateTime>, Tuple<double, double, double, int>>();
         Dictionary<Tuple<string, DateTime>, double> aqiCache = new Dictionary<Tuple<string, DateTime>, double>();
         public Dictionary<Tuple<string, DateTime>, double> AqiCache
         {
@@ -20,21 +20,21 @@ namespace AqiTraffic.Utility
                 return aqiCache;
             }
         }
-        public Dictionary<Tuple<string, DateTime>, double> WeatherCache
+        public Dictionary<Tuple<string, DateTime>, Tuple<double,double,double,int>> WeatherCache
         {
             get
             {
                 return weaCache;
             }
         }
-        public double GetWeather(string sid, DateTime dt)
+        public Tuple<double, double, double, int> GetWeather(string sid, DateTime dt)
         {
             Tuple<string, DateTime> qr = new Tuple<string, DateTime>(sid, dt);
             if (weaCache.ContainsKey(qr))
             {
                 return weaCache[qr];
             }
-            double ret = dbWea.QueryWeather(sid, dt);
+            Tuple<double,double,double,int> ret= dbWea.QueryWeather(sid, dt);
             weaCache.Add(qr, ret);
             return ret;
         }
@@ -44,10 +44,10 @@ namespace AqiTraffic.Utility
             Tuple<string, DateTime> qr = new Tuple<string, DateTime>(sid, dt);
             if (weaCache.ContainsKey(qr))
             {
-                return weaCache[qr];
+                return aqiCache[qr];
             }
             double ret = dbAqi.QueryAqi(sid, dt);
-            weaCache.Add(qr, ret);
+            aqiCache.Add(qr, ret);
             return ret;
         }
 

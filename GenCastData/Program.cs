@@ -35,27 +35,39 @@ namespace GenCastData
                 }
             }
             Console.WriteLine("Processing Air Quality Data...\n");
+            int tot = 0;
+            int cnt = 0;
+            DateTime sdt = new DateTime(2015, 7, 1);
+            DateTime edt = new DateTime(2015, 12, 21);
+            for (DateTime dt = sdt; dt < edt; tot++, dt = dt.AddMinutes(15)) ;
             using (StreamWriter sw = new StreamWriter("_aqi"))
             {
                 sw.WriteLine("id,time,aqi");
                 foreach (var aid in asids)
                 {
                     Console.WriteLine("Air Quality Station\t" + aid);
-                    DateTime sdt = new DateTime(2015, 7, 1);
-                    DateTime edt = new DateTime(2015, 12, 21);
-                    for (DateTime dt = sdt; dt < edt; sw.WriteLine(aid + ',' + dt + ',' + cache.GetAqi(aid, dt)), dt = dt.AddMinutes(15)) ;
+                    cnt = 0;
+                    for (DateTime dt = sdt; dt < edt; cnt++, dt = dt.AddMinutes(15))
+                    {
+                        Console.Write((cnt * 100 / tot) + "%\r");
+                        sw.WriteLine(aid + ',' + dt + ',' + cache.GetAqi(aid, dt));
+                    }
                 }
             }
             Console.WriteLine("Processing Weather Data...\n");
+
             using (StreamWriter sw = new StreamWriter("_wea"))
             {
                 sw.WriteLine("id,time,rain");
                 foreach (var wid in wsids)
                 {
                     Console.WriteLine("Weather Station\t" + wid);
-                    DateTime sdt = new DateTime(2015, 7, 1);
-                    DateTime edt = new DateTime(2015, 12, 21);
-                    for (DateTime dt = sdt; dt < edt; sw.WriteLine(wid + ',' + dt + ',' + cache.GetWeather(wid, dt)), dt = dt.AddMinutes(15)) ;
+                    cnt = 0;
+                    for (DateTime dt = sdt; dt < edt; cnt++, dt = dt.AddMinutes(15))
+                    {
+                        Console.Write((cnt * 100 / tot) + "%\r");
+                        sw.WriteLine(wid + ',' + dt + ',' + cache.GetWeather(wid, dt));
+                    }
                 }
             }
         }

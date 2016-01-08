@@ -10,6 +10,9 @@ namespace AqiTraffic.DataAccess
 {
     public class WeatherDB : DBAccess
     {
+        double[] monthMeanTempe = new double[] { -3.5, -0.5, 6, 14, 19, 24.5, 26.5, 25.5, 20.5, 11.5, 13.5, 5, -1.5 };
+        
+        private int NULLINT = -9999;
         public Dictionary<string, Tuple<double, double>> GetWeatherLocation()
         {
             string fileName = "_loc2";
@@ -28,7 +31,7 @@ namespace AqiTraffic.DataAccess
             }
             else
             {
-                string sql = "SELECT weather_station_id,longitude,latitude FROM ruiyuan_test_2015_12_19_before.dbo.WeatherStation where weather_station_id like '001%'";
+                string sql = "SELECT weather_station_id,longitude,latitude FROM ruiyuan_test.dbo.WeatherStation where weather_station_id like '001%'";
                 SqlCommand cmd = new SqlCommand(sql, _conn);
                 SqlDataReader sqlReader = cmd.ExecuteReader();
                 using (StreamWriter sw = new StreamWriter(fileName))
@@ -46,34 +49,22 @@ namespace AqiTraffic.DataAccess
             }
             return ret;
         }
-
-
         /// <summary>
         /// temporarily return RainFall
         /// </summary>
         /// <param name="stationID"></param>
         /// <param name="startTime"></param>
         /// <returns></returns>
-        public Tuple<double,double,double,int> QueryWeather(string stationID, DateTime startTime)
+        public Weather QueryWeather(string stationID, DateTime startTime)
         {
             string sql = null;
-            if (startTime < new DateTime(2015, 12, 20))
-            {
-                sql = string.Format("SELECT TOP 1 RainFall,Temperature,WindSpeed,Weather FROM ruiyuan_test_2015_12_19_before.dbo.Meteorology where id = {0} " +
-                "and DATEDIFF(MINUTE,'{1}', update_time) > 0 and DATEDIFF(MINUTE,'{2}', update_time) <= 0 ORDER BY update_time DESC",
-                stationID.ToString(), startTime.AddDays(-1).ToString(), startTime.ToString());
-            }
-            else
-            {
-                sql = string.Format("SELECT TOP 1 RainFall,Temperature,WindSpeed,Weather FROM ruiyuan_test.dbo.Meteorology where id = {0} " +
-                "and DATEDIFF(MINUTE,'{1}', update_time) > 0 and DATEDIFF(MINUTE,'{2}', update_time) <= 0 ORDER BY update_time DESC",
-                stationID.ToString(), startTime.AddDays(-1).ToString(), startTime.ToString());
-            }
-
+            sql = string.Format("SELECT TOP 1 RainFall,Temperature,WindSpeed,Weather FROM AqiTraffic.dbo.Meteorology where id = {0} " +
+            "and DATEDIFF(MINUTE,'{1}', update_time) > 0 and DATEDIFF(MINUTE,'{2}', update_time) <= 0 ORDER BY update_time DESC",
+            stationID.ToString(), startTime.AddDays(-1).ToString(), startTime.ToString());
             SqlCommand cmd = new SqlCommand(sql, _conn);
             SqlDataReader sqlReader = cmd.ExecuteReader();
-            double rain = -9999, temperature = -9999, wind = -9999;
-            int weather =-9999;
+            double rain = NULLINT, temperature = NULLINT, wind = NULLINT;
+            int weather = NULLINT;
             sqlReader.Read();
             if (sqlReader.HasRows)
             {
@@ -95,7 +86,30 @@ namespace AqiTraffic.DataAccess
                 }
             }
             sqlReader.Close();
-            return new Tuple<double, double, double, int>(rain, temperature, wind, weather);
+            return new Weather(rain, temperature, wind, weather);
+        }
+
+        public List<Tuple<string, DateTime, Weather>> AllRecord(DateTime from, DateTime to)
+        {
+            List<Tuple<string, DateTime, Weather>> ret = new List<Tuple<string, DateTime, Weather>>();
+            string sql = string.Format("SELECT id,update_time,RainFall,Temperature,WindSpeed,Weather FROM AqiTraffic.dbo.Meteorology where "
+                + "DATEDIFF(MINUTE,'{0}', update_time) >= 0 and DATEDIFF(MINUTE,'{1}', update_time) < 0 ORDER BY update_time",
+                from.ToString(), to.ToString());
+            SqlCommand cmd = new SqlCommand(sql, _conn);
+            SqlDataReader sqlReader = cmd.ExecuteReader();
+            while (sqlReader.Read())
+            {
+                string id = sqlReader.GetString(0);
+                DateTime dt = sqlReader.GetDateTime(1);
+                // fill missing value
+                double rain = sqlReader.IsDBNull(2) ? 0 : sqlReader.GetFloat(2);
+                double temperature = sqlReader.IsDBNull(3) ? monthMeanTempe[dt.Month-1] : sqlReader.GetFloat(3);
+                double wind = sqlReader.IsDBNull(4) ? 0 : sqlReader.GetFloat(4);
+                int label = sqlReader.IsDBNull(5) ? 0 : sqlReader.GetInt16(5);
+                ret.Add(new Tuple<string, DateTime, Weather>(id, dt, new Weather(rain, temperature, wind, label)));
+            }
+            sqlReader.Close();
+            return ret;
         }
     }
 }

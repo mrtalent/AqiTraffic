@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using AqiTraffic.DataAccess;
+using AqiTraffic.Utility;
+
 
 namespace Test1
 {
-    public class DBAccess
+    /*public class DBAccess
     {
         protected string _connectionString = "data source=URBCOMP01;initial catalog=ruiyuan_test_2015_12_19_before;user id=sa;password=abcd1234!;Timeout=30000;";
         protected SqlConnection _conn;
@@ -20,11 +23,11 @@ namespace Test1
         {
             _conn.Close();
         }
-    }
+    }*/
 
     class Test1
     {
-        static void TestDB()
+        /*static void TestDB()
         {
             string _connectionString = "data source=URBCOMP01;initial catalog=ruiyuan_test_2015_12_19_before;user id=sa;password=abcd1234!;Timeout=30000;";
             SqlConnection _conn;
@@ -42,11 +45,10 @@ namespace Test1
                 Console.WriteLine(sqlReader[0]);
             }
             _conn.Close();
-        }
+        }*/
         static void Main(string[] args)
         {
-
-            TestDB();
+            DBCache.GetInstance(new DateTime(2015, 7, 1), new DateTime(2015, 12, 31));
         }
     }
 }

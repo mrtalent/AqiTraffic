@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AqiTraffic.Utility;
+using AqiTraffic.DataAccess;
 using System.IO;
 
 namespace GenCastData
@@ -15,7 +16,7 @@ namespace GenCastData
         {
             List<string> wsids = new List<string>();
             List<string> asids = new List<string>();
-            MemCache cache = new MemCache();
+            DBCache weaData;
             using (StreamReader sr = new StreamReader(
                 @"D:\Users\v-tianhe\aqiTraffic\Code\AqiTraffic\GenRoadStationMapCW\bin\Debug\_loc1"))
             {
@@ -36,9 +37,7 @@ namespace GenCastData
             }
             DateTime sdt = new DateTime(2015, 7, 1);
             DateTime edt = new DateTime(2015, 12, 31);
-            int tot = 0;
-            for (DateTime dt = sdt; dt < edt; tot++, dt = dt.AddMinutes(15)) ;
-            int cnt = 0;
+            weaData = new DBCache(sdt, edt);
             /*
             Console.WriteLine("Processing Air Quality Data...\n");
             using (StreamWriter sw = new StreamWriter("_aqi"))
@@ -62,12 +61,10 @@ namespace GenCastData
                 foreach (var wid in wsids)
                 {
                     Console.WriteLine("Weather Station\t" + wid);
-                    cnt = 0;
-                    for (DateTime dt = sdt; dt < edt; cnt++, dt = dt.AddHours(1))
+                    for (DateTime dt = sdt; dt < edt;  dt = dt.AddMinutes(15))
                     {
-                        Console.Write((cnt * 100 / tot) + "%\r");
-                        Tuple<double, double, double, int> ret = cache.GetWeather(wid, dt);
-                        sw.WriteLine(wid + ',' + dt + ',' + ret.Item1 + ','+ ret.Item2+','+ret.Item3+','+ret.Item4);
+                        Weather res = weaData.GetWeather(wid,dt);
+                        sw.WriteLine(wid + ',' + dt + ',' + res.rain + ',' + res.temperature + ',' + res.windSpeed + ',' + res.label);
                     }
                 }
             }

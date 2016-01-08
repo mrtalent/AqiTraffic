@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AqiDB.cs" />
     <Compile Include="DBAccess.cs" />
+    <Compile Include="Weather.cs" />
     <Compile Include="WeatherDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

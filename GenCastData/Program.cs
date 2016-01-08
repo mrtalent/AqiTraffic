@@ -34,12 +34,13 @@ namespace GenCastData
                     wsids.Add(iline.Split(',')[0]);
                 }
             }
-            Console.WriteLine("Processing Air Quality Data...\n");
-            int tot = 0;
-            int cnt = 0;
             DateTime sdt = new DateTime(2015, 7, 1);
-            DateTime edt = new DateTime(2015, 12, 21);
+            DateTime edt = new DateTime(2015, 12, 31);
+            int tot = 0;
             for (DateTime dt = sdt; dt < edt; tot++, dt = dt.AddMinutes(15)) ;
+            int cnt = 0;
+            /*
+            Console.WriteLine("Processing Air Quality Data...\n");
             using (StreamWriter sw = new StreamWriter("_aqi"))
             {
                 sw.WriteLine("id,time,aqi");
@@ -53,9 +54,8 @@ namespace GenCastData
                         sw.WriteLine(aid + ',' + dt + ',' + cache.GetAqi(aid, dt));
                     }
                 }
-            }
+            }*/
             Console.WriteLine("Processing Weather Data...\n");
-
             using (StreamWriter sw = new StreamWriter("_wea"))
             {
                 sw.WriteLine("id,time,rain");
@@ -63,10 +63,11 @@ namespace GenCastData
                 {
                     Console.WriteLine("Weather Station\t" + wid);
                     cnt = 0;
-                    for (DateTime dt = sdt; dt < edt; cnt++, dt = dt.AddMinutes(15))
+                    for (DateTime dt = sdt; dt < edt; cnt++, dt = dt.AddHours(1))
                     {
                         Console.Write((cnt * 100 / tot) + "%\r");
-                        sw.WriteLine(wid + ',' + dt + ',' + cache.GetWeather(wid, dt));
+                        Tuple<double, double, double, int> ret = cache.GetWeather(wid, dt);
+                        sw.WriteLine(wid + ',' + dt + ',' + ret.Item1 + ','+ ret.Item2+','+ret.Item3+','+ret.Item4);
                     }
                 }
             }

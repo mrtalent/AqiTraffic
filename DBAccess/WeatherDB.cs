@@ -59,22 +59,21 @@ namespace AqiTraffic.DataAccess
             string sql = null;
             if (startTime < new DateTime(2015, 12, 20))
             {
-                sql = string.Format("SELECT TOP 1 RainFall,Temperature,WindSpeed,Weather FROM ruiyuan_test_2015_12_19_before.dbo.Meteorology where id = '{0}' " +
+                sql = string.Format("SELECT TOP 1 RainFall,Temperature,WindSpeed,Weather FROM ruiyuan_test_2015_12_19_before.dbo.Meteorology where id = {0} " +
                 "and DATEDIFF(MINUTE,'{1}', update_time) > 0 and DATEDIFF(MINUTE,'{2}', update_time) <= 0 ORDER BY update_time DESC",
-                stationID.ToString(), startTime.AddDays(-2).ToString(), startTime.ToString());
+                stationID.ToString(), startTime.AddDays(-1).ToString(), startTime.ToString());
             }
             else
             {
-                sql = string.Format("SELECT TOP 1 RainFall,Temperature,WindSpeed,Weather FROM ruiyuan_test.dbo.Meteorology where id = '{0}' " +
+                sql = string.Format("SELECT TOP 1 RainFall,Temperature,WindSpeed,Weather FROM ruiyuan_test.dbo.Meteorology where id = {0} " +
                 "and DATEDIFF(MINUTE,'{1}', update_time) > 0 and DATEDIFF(MINUTE,'{2}', update_time) <= 0 ORDER BY update_time DESC",
-                stationID.ToString(), startTime.AddDays(-2).ToString(), startTime.ToString());
+                stationID.ToString(), startTime.AddDays(-1).ToString(), startTime.ToString());
             }
 
             SqlCommand cmd = new SqlCommand(sql, _conn);
             SqlDataReader sqlReader = cmd.ExecuteReader();
             double rain = -9999, temperature = -9999, wind = -9999;
             int weather =-9999;
-            Tuple<double, double, double, int> ret=;
             sqlReader.Read();
             if (sqlReader.HasRows)
             {

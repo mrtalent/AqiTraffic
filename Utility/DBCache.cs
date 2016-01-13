@@ -34,6 +34,7 @@ namespace AqiTraffic.Utility
                 .ToList();
             foreach (var ustation in data)
             {
+                Console.WriteLine(ustation[0].Item1);
                 int pt = 0;
                 Weather last_record = null;
                 for (DateTime dt = from; dt < to; dt = dt.AddMinutes(15))

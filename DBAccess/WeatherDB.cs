@@ -11,7 +11,7 @@ namespace AqiTraffic.DataAccess
     public class WeatherDB : DBAccess
     {
         double[] monthMeanTempe = new double[] { -3.5, -0.5, 6, 14, 19, 24.5, 26.5, 25.5, 20.5, 11.5, 13.5, 5, -1.5 };
-        
+
         private int NULLINT = -9999;
         public Dictionary<string, Tuple<double, double>> GetWeatherLocation()
         {
@@ -103,8 +103,16 @@ namespace AqiTraffic.DataAccess
                 DateTime dt = sqlReader.GetDateTime(1);
                 // fill missing value
                 double rain = sqlReader.IsDBNull(2) ? 0 : sqlReader.GetFloat(2);
-                double temperature = sqlReader.IsDBNull(3) ? monthMeanTempe[dt.Month-1] : sqlReader.GetFloat(3);
+                double temperature = sqlReader.IsDBNull(3) ? monthMeanTempe[dt.Month - 1] : sqlReader.GetFloat(3);
+                if (temperature == 9999)
+                {
+                    temperature = monthMeanTempe[dt.Month - 1];
+                }
                 double wind = sqlReader.IsDBNull(4) ? 0 : sqlReader.GetFloat(4);
+                if (wind == 9999)
+                {
+                    wind = 0;
+                }
                 int label = sqlReader.IsDBNull(5) ? 0 : sqlReader.GetInt16(5);
                 ret.Add(new Tuple<string, DateTime, Weather>(id, dt, new Weather(rain, temperature, wind, label)));
             }

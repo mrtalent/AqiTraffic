@@ -63,7 +63,7 @@ namespace GenCastData
                     Console.WriteLine("Weather Station\t" + wid);
                     for (DateTime dt = sdt; dt < edt;  dt = dt.AddMinutes(15))
                     {
-                        Weather res = weaData.GetWeather(wid,dt);
+                        Weather res = weaData.GetWeather(int.Parse(wid).ToString(), dt);
                         sw.WriteLine(wid + ',' + dt + ',' + res.rain + ',' + res.temperature + ',' + res.windSpeed + ',' + res.label);
                     }
                 }

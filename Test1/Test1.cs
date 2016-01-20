@@ -48,7 +48,7 @@ namespace Test1
         }*/
         static void Main(string[] args)
         {
-            DBCache.GetInstance(new DateTime(2015, 7, 1), new DateTime(2015, 12, 31));
+            //DBCache.GetInstance(new DateTime(2015, 7, 1), new DateTime(2015, 12, 31));
         }
     }
 }

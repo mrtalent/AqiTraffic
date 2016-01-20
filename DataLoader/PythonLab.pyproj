@@ -4,14 +4,16 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>2fae3ee0-33f5-4ed7-a588-201b07e7d75b</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
-    <StartupFile>DataLoader.py</StartupFile>
+    <ProjectHome>
+    </ProjectHome>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>DataLoader</Name>
+    <Name>PythonLab</Name>
     <RootNamespace>DataLoader</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +25,46 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DataLoader.py" />
+    <Compile Include="main.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Research\MoreFeature\CalculusSpeed.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Research\MoreFeature\RoadInPairs.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Research\MultiLinearRegression\gencases.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Research\MultiLinearRegression\RoadScoreLR.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Research\PCA\mypca.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Research\PCA\plots\PCDimHist.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Research\SignalProcessing\Sequences.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Research\SignalProcessing\FreqAnalysis.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Research\SignalProcessing\plots\SplitFreq.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Research\" />
+    <Folder Include="Ploting\" />
+    <Folder Include="Research\MultiLinearRegression\" />
+    <Folder Include="Research\MoreFeature\" />
+    <Folder Include="Research\PCA\plots\" />
+    <Folder Include="Research\SignalProcessing\" />
+    <Folder Include="Research\PCA\" />
+    <Folder Include="Research\SignalProcessing\plots\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

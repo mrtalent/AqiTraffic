@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using AqiTraffic.Utility;
+using AqiTraffic.DataAccess;
 
 namespace GenerateCases
 {

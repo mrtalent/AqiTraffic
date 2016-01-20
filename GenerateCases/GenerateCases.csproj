@@ -49,6 +49,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DBAccess\AqiTraffic.DataAccess.csproj">
+      <Project>{1b12a472-a35e-4733-92de-2b65257bfbe6}</Project>
+      <Name>AqiTraffic.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utility\AqiTraffic.Utility.csproj">
       <Project>{11046e18-1631-466a-b618-88593a60d672}</Project>
       <Name>AqiTraffic.Utility</Name>

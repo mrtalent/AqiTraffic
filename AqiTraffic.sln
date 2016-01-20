@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenCastData", "GenCastData\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenRoadStationMap", "GenRoadStationMap\GenRoadStationMap.csproj", "{BE5E13AF-9EEE-441B-BF9C-50B2249F9274}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PythonLab", "PythonLab", "{6E9F07D5-CDFC-41CE-B196-630142DD9B35}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "DataLoader", "DataLoader\DataLoader.pyproj", "{2FAE3EE0-33F5-4ED7-A588-201B07E7D75B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +77,8 @@ Global
 		{BE5E13AF-9EEE-441B-BF9C-50B2249F9274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE5E13AF-9EEE-441B-BF9C-50B2249F9274}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE5E13AF-9EEE-441B-BF9C-50B2249F9274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FAE3EE0-33F5-4ED7-A588-201B07E7D75B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FAE3EE0-33F5-4ED7-A588-201B07E7D75B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,5 +92,6 @@ Global
 		{4354BD63-F293-498A-9E99-F047E2DDE86D} = {52585113-33A9-4EDD-84DA-18DB2055F865}
 		{82E07EBA-48A9-449F-8CA3-5FB2BCCB567D} = {52585113-33A9-4EDD-84DA-18DB2055F865}
 		{BE5E13AF-9EEE-441B-BF9C-50B2249F9274} = {52585113-33A9-4EDD-84DA-18DB2055F865}
+		{2FAE3EE0-33F5-4ED7-A588-201B07E7D75B} = {6E9F07D5-CDFC-41CE-B196-630142DD9B35}
 	EndGlobalSection
 EndGlobal

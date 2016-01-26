@@ -1,2 +1,2 @@
-execfile('DataLoader.py')
-execfile('PCDimHist.py')
+﻿execfile('DataLoader.py')
+execfile('./PCA/plotsPCDimHist.py')

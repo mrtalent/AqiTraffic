@@ -50,9 +50,9 @@ namespace AqiTraffic.DataAccess
         {
             string sql = null;
 
-                sql = string.Format("SELECT TOP 1 PM25_Concentration FROM AqiTraffic.dbo.AirQuality where station_id={0} "
-                + "and DATEDIFF(MINUTE,'{1}', time) > 0 and DATEDIFF(MINUTE,'{2}', time) <= 0 ORDER BY time DESC",
-                stationID.ToString(), startTime.AddDays(-4).ToString(), startTime.ToString());
+            sql = string.Format("SELECT TOP 1 PM25_Concentration FROM AqiTraffic.dbo.AirQuality where station_id={0} "
+            + "and DATEDIFF(MINUTE,'{1}', time) > 0 and DATEDIFF(MINUTE,'{2}', time) <= 0 ORDER BY time DESC",
+            stationID.ToString(), startTime.AddDays(-4).ToString(), startTime.ToString());
 
             SqlCommand cmd = new SqlCommand(sql, _conn);
             SqlDataReader sqlReader = cmd.ExecuteReader();
@@ -61,6 +61,25 @@ namespace AqiTraffic.DataAccess
             if (sqlReader.HasRows && !sqlReader.IsDBNull(0))
             {
                 ret = sqlReader.GetFloat(0);
+            }
+            sqlReader.Close();
+            return ret;
+        }
+
+        public List<Tuple<string, DateTime, double>> AllRecord(DateTime from, DateTime to)
+        {
+            List<Tuple<string, DateTime, double>> ret = new List<Tuple<string, DateTime, double>>();
+            string sql = string.Format("SELECT station_id,update_time,PM25_Concentration FROM AqiTraffic.dbo.AirQuality where "
+                + "DATEDIFF(MINUTE,'{0}', update_time) >= 0 and DATEDIFF(MINUTE,'{1}', update_time) < 0 ORDER BY update_time",
+                from.ToString(), to.ToString());
+            SqlCommand cmd = new SqlCommand(sql, _conn);
+            SqlDataReader sqlReader = cmd.ExecuteReader();
+            while (sqlReader.Read())
+            {
+                string id = sqlReader.GetString(0);
+                DateTime dt = sqlReader.GetDateTime(1);
+                double aqi = sqlReader.IsDBNull(2) ? -1 : sqlReader.GetFloat(2);
+                ret.Add(new Tuple<string, DateTime, double>(id, dt, aqi));
             }
             sqlReader.Close();
             return ret;

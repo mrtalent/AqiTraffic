@@ -105,10 +105,10 @@ namespace GenerateCases
                                 int.Parse(strDate.Substring(6)), hhours / 2, hhours % 2, 0);
 
                             //get weather and aqi data corresponding to coordinates
-                            Tuple<double, double, double, int> weather = cache.GetWeather(rsmap.GetWeatherStationID(rid), dt);
+                            Weather weather = cache.GetWeather(rsmap.GetWeatherStationID(rid), dt);
                             double aqi = cache.GetAqi(rsmap.GetAqiStationID(rid), dt);
                             sw.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7}", speed, aqi,
-                                rlv, weather.Item1, weather.Item2, weather.Item3, weather.Item4));
+                                rlv, weather.rain, weather.temperature, weather.windSpeed, weather.label));
                             process_cnt++;
                         }
                     }

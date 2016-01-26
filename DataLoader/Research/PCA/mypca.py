@@ -1,7 +1,4 @@
-﻿import numpy as np
-
-
-def speed_segs(rid, wk=2):
+﻿def speed_segs(rid, wk=2):
     y = speed_seq(rid, dbound=(sdt, edt), wk=wk)[1]
     return np.array(y).reshape(-1,96)
 
